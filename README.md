@@ -41,17 +41,17 @@ $5795.62
 
 ## Docker
 
-Make sure the jar is create under target folder:
+Make sure the jar is created under the target folder:
 ```aidl
 target/shopping-cart-0.0.1-SNAPSHOT.jar
 ```
 
-Build docker imagine
+Build docker imagine:
 ```aidl
 docker build -t kinvinjin/shopping-cart-docker .
 ```
 
-Run imagine
+Run imagine:
 ```aidl
 docker run -p 8080:8080 kinvinjin/shopping-cart-docker
 ```
