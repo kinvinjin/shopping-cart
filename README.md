@@ -38,3 +38,20 @@ Response
 ```aidl
 $5795.62
 ```
+
+## Docker
+
+Make sure the jar is create under target folder:
+```aidl
+target/shopping-cart-0.0.1-SNAPSHOT.jar
+```
+
+Build docker imagine
+```aidl
+docker build -t kinvinjin/shopping-cart-docker .
+```
+
+Run imagine
+```aidl
+docker run -p 8080:8080 kinvinjin/shopping-cart-docker
+```
