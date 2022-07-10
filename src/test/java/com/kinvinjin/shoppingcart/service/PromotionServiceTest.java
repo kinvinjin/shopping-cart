@@ -8,7 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,9 +20,9 @@ public class PromotionServiceTest {
 
     @Test
     void testMacBookProPromotion1() {
-        Map<ItemEnum, OrderItem> order = new EnumMap<ItemEnum, OrderItem>(ItemEnum.class);
-        order.put(ItemEnum.MACBOOK_PRO, OrderItem.builder().price(BigDecimal.valueOf(5399.99)).qty(BigDecimal.ONE).build());
-        order.put(ItemEnum.RASPBERRY_PI_B, OrderItem.builder().price(BigDecimal.valueOf(30.00)).qty(BigDecimal.ONE).build());
+        Map<String, OrderItem> order = new HashMap<>();
+        order.put(PromotionItem.MACBOOK_PRO.getSku(), OrderItem.builder().price(BigDecimal.valueOf(5399.99)).qty(BigDecimal.ONE).build());
+        order.put(PromotionItem.RASPBERRY_PI_B.getSku(), OrderItem.builder().price(BigDecimal.valueOf(30.00)).qty(BigDecimal.ONE).build());
         BigDecimal cost = order.values().stream().map(r -> r.getPrice().multiply(r.getQty()))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         assertEquals(BigDecimal.valueOf(5399.99), promotionService.applyMacBookProPromotion(order, cost));
@@ -30,8 +30,8 @@ public class PromotionServiceTest {
 
     @Test
     void testMacBookProPromotion2() {
-        Map<ItemEnum, OrderItem> order = new EnumMap<ItemEnum, OrderItem>(ItemEnum.class);
-        order.put(ItemEnum.MACBOOK_PRO, OrderItem.builder().price(BigDecimal.valueOf(5399.99)).qty(BigDecimal.ONE).build());
+        Map<String, OrderItem> order = new HashMap<>();
+        order.put(PromotionItem.MACBOOK_PRO.getSku(), OrderItem.builder().price(BigDecimal.valueOf(5399.99)).qty(BigDecimal.ONE).build());
         BigDecimal cost = order.values().stream().map(r -> r.getPrice().multiply(r.getQty()))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         assertEquals(BigDecimal.valueOf(5399.99), promotionService.applyMacBookProPromotion(order, cost));
@@ -39,8 +39,8 @@ public class PromotionServiceTest {
 
     @Test
     void testMacBookProPromotion3() {
-        Map<ItemEnum, OrderItem> order = new EnumMap<ItemEnum, OrderItem>(ItemEnum.class);
-        order.put(ItemEnum.RASPBERRY_PI_B, OrderItem.builder().price(BigDecimal.valueOf(30.00)).qty(BigDecimal.ONE).build());
+        Map<String, OrderItem> order = new HashMap<>();
+        order.put(PromotionItem.RASPBERRY_PI_B.getSku(), OrderItem.builder().price(BigDecimal.valueOf(30.00)).qty(BigDecimal.ONE).build());
         BigDecimal cost = order.values().stream().map(r -> r.getPrice().multiply(r.getQty()))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         assertEquals(BigDecimal.valueOf(30.00), promotionService.applyMacBookProPromotion(order, cost));
@@ -48,9 +48,9 @@ public class PromotionServiceTest {
 
     @Test
     void testMacBookProPromotion4() {
-        Map<ItemEnum, OrderItem> order = new EnumMap<ItemEnum, OrderItem>(ItemEnum.class);
-        order.put(ItemEnum.MACBOOK_PRO, OrderItem.builder().price(BigDecimal.valueOf(5399.99)).qty(BigDecimal.ONE).build());
-        order.put(ItemEnum.RASPBERRY_PI_B, OrderItem.builder().price(BigDecimal.valueOf(30.00)).qty(BigDecimal.valueOf(2)).build());
+        Map<String, OrderItem> order = new HashMap<>();
+        order.put(PromotionItem.MACBOOK_PRO.getSku(), OrderItem.builder().price(BigDecimal.valueOf(5399.99)).qty(BigDecimal.ONE).build());
+        order.put(PromotionItem.RASPBERRY_PI_B.getSku(), OrderItem.builder().price(BigDecimal.valueOf(30.00)).qty(BigDecimal.valueOf(2)).build());
         BigDecimal cost = order.values().stream().map(r -> r.getPrice().multiply(r.getQty()))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         assertEquals(BigDecimal.valueOf(5399.99+30.00), promotionService.applyMacBookProPromotion(order, cost));
@@ -58,8 +58,8 @@ public class PromotionServiceTest {
 
     @Test
     void testGoogleHomePromotion1() {
-        Map<ItemEnum, OrderItem> order = new EnumMap<ItemEnum, OrderItem>(ItemEnum.class);
-        order.put(ItemEnum.GOOGLE_HOME, OrderItem.builder().price(BigDecimal.valueOf(49.99)).qty(BigDecimal.valueOf(3)).build());
+        Map<String, OrderItem> order = new HashMap<>();
+        order.put(PromotionItem.GOOGLE_HOME.getSku(), OrderItem.builder().price(BigDecimal.valueOf(49.99)).qty(BigDecimal.valueOf(3)).build());
         BigDecimal cost = order.values().stream().map(r -> r.getPrice().multiply(r.getQty()))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         assertEquals(BigDecimal.valueOf(49.99*2), promotionService.applyGoogleHomePromotion(order, cost));
@@ -67,8 +67,8 @@ public class PromotionServiceTest {
 
     @Test
     void testGoogleHomePromotion2() {
-        Map<ItemEnum, OrderItem> order = new EnumMap<ItemEnum, OrderItem>(ItemEnum.class);
-        order.put(ItemEnum.GOOGLE_HOME, OrderItem.builder().price(BigDecimal.valueOf(49.99)).qty(BigDecimal.valueOf(2)).build());
+        Map<String, OrderItem> order = new HashMap<>();
+        order.put(PromotionItem.GOOGLE_HOME.getSku(), OrderItem.builder().price(BigDecimal.valueOf(49.99)).qty(BigDecimal.valueOf(2)).build());
         BigDecimal cost = order.values().stream().map(r -> r.getPrice().multiply(r.getQty()))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         assertEquals(BigDecimal.valueOf(49.99*2), promotionService.applyGoogleHomePromotion(order, cost));
@@ -76,8 +76,8 @@ public class PromotionServiceTest {
 
     @Test
     void testGoogleHomePromotion3() {
-        Map<ItemEnum, OrderItem> order = new EnumMap<ItemEnum, OrderItem>(ItemEnum.class);
-        order.put(ItemEnum.MACBOOK_PRO, OrderItem.builder().price(BigDecimal.valueOf(5399.99)).qty(BigDecimal.ONE).build());
+        Map<String, OrderItem> order = new HashMap<>();
+        order.put(PromotionItem.MACBOOK_PRO.getSku(), OrderItem.builder().price(BigDecimal.valueOf(5399.99)).qty(BigDecimal.ONE).build());
         BigDecimal cost = order.values().stream().map(r -> r.getPrice().multiply(r.getQty()))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         assertEquals(BigDecimal.valueOf(5399.99), promotionService.applyGoogleHomePromotion(order, cost));
@@ -85,8 +85,8 @@ public class PromotionServiceTest {
 
     @Test
     void testAlexaSpeakerPromotion1() {
-        Map<ItemEnum, OrderItem> order = new EnumMap<ItemEnum, OrderItem>(ItemEnum.class);
-        order.put(ItemEnum.ALEXA_SPEAKER, OrderItem.builder().price(BigDecimal.valueOf(109.50)).qty(BigDecimal.valueOf(3)).build());
+        Map<String, OrderItem> order = new HashMap<>();
+        order.put(PromotionItem.ALEXA_SPEAKER.getSku(), OrderItem.builder().price(BigDecimal.valueOf(109.50)).qty(BigDecimal.valueOf(3)).build());
         BigDecimal cost = order.values().stream().map(r -> r.getPrice().multiply(r.getQty()))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         assertEquals(BigDecimal.valueOf(109.50*3*0.9).setScale(2, RoundingMode.HALF_UP), promotionService.applyAlexaSpeakerPromotion(order, cost));
@@ -94,8 +94,8 @@ public class PromotionServiceTest {
 
     @Test
     void testAlexaSpeakerPromotion2() {
-        Map<ItemEnum, OrderItem> order = new EnumMap<ItemEnum, OrderItem>(ItemEnum.class);
-        order.put(ItemEnum.ALEXA_SPEAKER, OrderItem.builder().price(BigDecimal.valueOf(109.50)).qty(BigDecimal.valueOf(2)).build());
+        Map<String, OrderItem> order = new HashMap<>();
+        order.put(PromotionItem.ALEXA_SPEAKER.getSku(), OrderItem.builder().price(BigDecimal.valueOf(109.50)).qty(BigDecimal.valueOf(2)).build());
         BigDecimal cost = order.values().stream().map(r -> r.getPrice().multiply(r.getQty()))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         assertEquals(BigDecimal.valueOf(109.50*2), promotionService.applyAlexaSpeakerPromotion(order, cost));
@@ -103,8 +103,8 @@ public class PromotionServiceTest {
 
     @Test
     void testAlexaSpeakerPromotion3() {
-        Map<ItemEnum, OrderItem> order = new EnumMap<ItemEnum, OrderItem>(ItemEnum.class);
-        order.put(ItemEnum.MACBOOK_PRO, OrderItem.builder().price(BigDecimal.valueOf(5399.99)).qty(BigDecimal.ONE).build());
+        Map<String, OrderItem> order = new HashMap<>();
+        order.put(PromotionItem.MACBOOK_PRO.getSku(), OrderItem.builder().price(BigDecimal.valueOf(5399.99)).qty(BigDecimal.ONE).build());
         BigDecimal cost = order.values().stream().map(r -> r.getPrice().multiply(r.getQty()))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         assertEquals(BigDecimal.valueOf(5399.99), promotionService.applyAlexaSpeakerPromotion(order, cost));
@@ -112,11 +112,11 @@ public class PromotionServiceTest {
 
     @Test
     void testApply() {
-        Map<ItemEnum, OrderItem> order = new EnumMap<ItemEnum, OrderItem>(ItemEnum.class);
-        order.put(ItemEnum.MACBOOK_PRO, OrderItem.builder().price(BigDecimal.valueOf(5399.99)).qty(BigDecimal.ONE).build());
-        order.put(ItemEnum.RASPBERRY_PI_B, OrderItem.builder().price(BigDecimal.valueOf(30.00)).qty(BigDecimal.ONE).build());
-        order.put(ItemEnum.GOOGLE_HOME, OrderItem.builder().price(BigDecimal.valueOf(49.99)).qty(BigDecimal.valueOf(3)).build());
-        order.put(ItemEnum.ALEXA_SPEAKER, OrderItem.builder().price(BigDecimal.valueOf(109.50)).qty(BigDecimal.valueOf(3)).build());
+        Map<String, OrderItem> order = new HashMap<>();
+        order.put(PromotionItem.MACBOOK_PRO.getSku(), OrderItem.builder().price(BigDecimal.valueOf(5399.99)).qty(BigDecimal.ONE).build());
+        order.put(PromotionItem.RASPBERRY_PI_B.getSku(), OrderItem.builder().price(BigDecimal.valueOf(30.00)).qty(BigDecimal.ONE).build());
+        order.put(PromotionItem.GOOGLE_HOME.getSku(), OrderItem.builder().price(BigDecimal.valueOf(49.99)).qty(BigDecimal.valueOf(3)).build());
+        order.put(PromotionItem.ALEXA_SPEAKER.getSku(), OrderItem.builder().price(BigDecimal.valueOf(109.50)).qty(BigDecimal.valueOf(3)).build());
 
         assertEquals(BigDecimal.valueOf(5399.99+49.99*2+109.50*3*0.9).setScale(2, RoundingMode.HALF_UP),
                 promotionService.apply(order));

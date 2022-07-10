@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -23,28 +23,30 @@ public class CheckoutService {
     @Autowired
     private InventoryRepository inventoryRepository;
 
-    public Map<ItemEnum, OrderItem> scan(String orderList) throws IllegalArgumentException {
-        Map<ItemEnum, Long> orderMap = Arrays.stream(orderList.split(","))
-                .map(r -> ItemEnum.lookup(r.trim()))
-                .collect(groupingBy(Function.identity(), () -> new EnumMap<ItemEnum, Long>(ItemEnum.class),Collectors.counting()));
-        Map<ItemEnum, OrderItem> order = new EnumMap<>(ItemEnum.class);
+    public Map<String, OrderItem> scan(String orderList) throws IllegalArgumentException {
+        Map<String, Long> orderMap = Arrays.stream(orderList.split(",")).map(String::trim)
+                .collect(groupingBy(Function.identity(), Collectors.counting()));
+        Map<String, OrderItem> order = new HashMap<>();
 
-        for (Map.Entry<ItemEnum, Long> entry : orderMap.entrySet()) {
-            ItemEnum item = entry.getKey();
+        for (Map.Entry<String, Long> entry : orderMap.entrySet()) {
             BigDecimal qty = BigDecimal.valueOf(entry.getValue());
-            Inventory inventoryItem = inventoryRepository.findBySku(item.getSku());
+            Inventory inventoryItem = inventoryRepository.findBySku(entry.getKey());
+
+            if (inventoryItem == null) {
+                throw new IllegalArgumentException("unknown item: " + entry.getKey());
+            }
 
             if (inventoryItem.getQty().compareTo(BigDecimal.ZERO) == 0 ||
                     inventoryItem.getQty().compareTo(qty) < 0) {
-                throw new IllegalArgumentException("insufficient inventory quantity for " + item.getName());
+                throw new IllegalArgumentException("insufficient inventory quantity for " + inventoryItem.getName());
             }
-            order.put(item, OrderItem.builder().price(inventoryItem.getPrice()).qty(qty).build());
+            order.put(entry.getKey(), OrderItem.builder().price(inventoryItem.getPrice()).qty(qty).build());
         }
 
         return order;
     }
     public BigDecimal calculate(String orderList) throws IllegalArgumentException {
-        Map<ItemEnum, OrderItem> order = scan(orderList);
+        Map<String, OrderItem> order = scan(orderList);
         return promotionService.apply(order);
     }
 }

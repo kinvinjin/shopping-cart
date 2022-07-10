@@ -31,8 +31,8 @@ public class CheckoutServiceTest {
     private Inventory getInventoryItem(Long qty) {
         Inventory item = new Inventory();
         item.setId(1);
-        item.setSku(ItemEnum.MACBOOK_PRO.getSku());
-        item.setName(ItemEnum.MACBOOK_PRO.getName());
+        item.setSku(PromotionItem.MACBOOK_PRO.getSku());
+        item.setName(PromotionItem.MACBOOK_PRO.getName());
         item.setQty(BigDecimal.valueOf(qty));
         return item;
     }
@@ -40,8 +40,8 @@ public class CheckoutServiceTest {
     @Test
     void test1() {
         when(inventoryRepository.findBySku(any())).thenReturn(getInventoryItem(2L));
-        Map<ItemEnum, OrderItem> order = checkoutService.scan("43N23P,43N23P");
-        assertEquals(BigDecimal.valueOf(2), order.get(ItemEnum.MACBOOK_PRO).getQty());
+        Map<String, OrderItem> order = checkoutService.scan("43N23P,43N23P");
+        assertEquals(BigDecimal.valueOf(2), order.get(PromotionItem.MACBOOK_PRO.getSku()).getQty());
     }
 
     @Test

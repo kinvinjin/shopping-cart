@@ -11,7 +11,7 @@ To simplify the demo application,
 * If the inventory quantity is less than order quantity, an error message will be returned.
 * The "order" is the only required parameter in request.
 * The "order" string must be split with comma if there are many items.
-* The value in the order string must be the SKU or name of specific item.
+* The value in the order string must be the SKU of a specific item existing in database.
 * Response will be a string format.
 * The result rounds to 2 decimal places.
 

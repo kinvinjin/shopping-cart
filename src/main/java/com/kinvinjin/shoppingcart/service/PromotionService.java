@@ -8,13 +8,13 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Map;
 
-import static com.kinvinjin.shoppingcart.service.ItemEnum.*;
+import static com.kinvinjin.shoppingcart.service.PromotionItem.*;
 
 @Service
 public class PromotionService {
-    public BigDecimal applyMacBookProPromotion(Map<ItemEnum, OrderItem> order, BigDecimal cost) {
-        OrderItem macBookPro = order.get(MACBOOK_PRO);
-        OrderItem raspberryPiB = order.get(RASPBERRY_PI_B);
+    public BigDecimal applyMacBookProPromotion(Map<String, OrderItem> order, BigDecimal cost) {
+        OrderItem macBookPro = order.get(MACBOOK_PRO.getSku());
+        OrderItem raspberryPiB = order.get(RASPBERRY_PI_B.getSku());
         if (macBookPro == null || raspberryPiB == null) {
             return cost;
         }
@@ -25,8 +25,8 @@ public class PromotionService {
         return cost.subtract(raspberryPiB.getPrice().multiply(promoQty));
     }
 
-    public BigDecimal applyGoogleHomePromotion(Map<ItemEnum, OrderItem> order, BigDecimal cost) {
-        OrderItem itemOrder = order.get(GOOGLE_HOME);
+    public BigDecimal applyGoogleHomePromotion(Map<String, OrderItem> order, BigDecimal cost) {
+        OrderItem itemOrder = order.get(GOOGLE_HOME.getSku());
         if (itemOrder == null) {
             return cost;
         }
@@ -37,8 +37,8 @@ public class PromotionService {
         return cost.subtract(itemOrder.getPrice().multiply(promoQty));
     }
 
-    public BigDecimal applyAlexaSpeakerPromotion(Map<ItemEnum, OrderItem> order, BigDecimal cost) {
-        OrderItem itemOrder = order.get(ALEXA_SPEAKER);
+    public BigDecimal applyAlexaSpeakerPromotion(Map<String, OrderItem> order, BigDecimal cost) {
+        OrderItem itemOrder = order.get(ALEXA_SPEAKER.getSku());
         if (itemOrder == null) {
             return cost;
         }
@@ -50,7 +50,7 @@ public class PromotionService {
         }
     }
 
-    public BigDecimal apply(Map<ItemEnum, OrderItem> order) {
+    public BigDecimal apply(Map<String, OrderItem> order) {
         BigDecimal cost = order.values().stream().map(r -> r.getPrice().multiply(r.getQty()))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         cost = applyMacBookProPromotion(order, cost);
