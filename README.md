@@ -1,6 +1,6 @@
 # shopping-cart
 
-The program is built in Java (17) and Spring boot.
+The program is built in Java ("17.0.3.1") and Spring Boot 2.
 It provides the function to calculate the cost of the orders with promotions.
 It exposes the REST API (/checkout) as enter point, referring to the example below for details.
 
@@ -13,6 +13,7 @@ To simplify the demo application,
 * The "order" string must be split with comma if there are many items.
 * The value in the order string must be the SKU or name of specific item.
 * Response will be a string format.
+* The result rounds to 2 decimal places.
 
 ## Running code
 To run the program in MacOS/Linux:
